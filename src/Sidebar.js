@@ -8,7 +8,8 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { collection, onSnapshot } from "firebase/firestore";
 import SidebarChat from "./SidebarChat";
 import { useStateValue } from "./StateProvider";
-import db from "./firebase";
+import { signOut } from "firebase/auth";
+import db, { auth } from "./firebase";
 import "./Sidebar.css";
 
 function Sidebar() {
@@ -29,6 +30,14 @@ function Sidebar() {
     }
   }, []);
 
+  const logout = () => {
+    signOut(auth).then(() => {
+      console.log("Sign-out successful.");
+    }).catch((error) => {
+      console.error("An error happened when Signing-out");
+    });
+  }
+
   return (
     <div className="sidebar">
       <div className="sidebar_header">
@@ -42,7 +51,7 @@ function Sidebar() {
           <IconButton aria-label="chat">
             <ChatIcon />
           </IconButton>
-          <IconButton aria-label="more">
+          <IconButton aria-label="more" onClick={logout}>
             <MoreVertIcon />
           </IconButton>
         </div>
